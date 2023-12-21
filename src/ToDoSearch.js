@@ -1,12 +1,14 @@
 import "./ToDoSearch.css"
+import React from "react"
 
-function ToDoSearch(){
+function ToDoSearch({searchValue, setSearchValue}){
     return(
       <input
       placeholder="Task to search..."
       className="ToDoSearch"
+      value={searchValue}
       onChange={(event) => {
-        console.log(event.target.value)
+        setSearchValue(event.target.value)
       }}>
       </input>
     )
