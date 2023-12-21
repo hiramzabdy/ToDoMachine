@@ -16,7 +16,7 @@ let defaultToDos = [
 function App() {
   const [searchValue, setSearchValue] = React.useState("")
   const [toDos, setToDos] = React.useState(defaultToDos)
-  
+
   const completedToDos = toDos.filter(todo => !!todo.completed).length
   const totalToDos = toDos.length
 
@@ -24,13 +24,23 @@ function App() {
     //makes text lower case and replaces accented characters
     const searchingTextValue = searchValue.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     const toDoTextValue = todo.text.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-
     if(toDoTextValue.includes(searchingTextValue)){
       return todo
     }
   })
 
-  console.log(searchValue)
+  const completeTodo = (idText) => {
+    const newToDos = [...toDos]
+    newToDos.find(todo => todo.text === idText).completed = true
+    setToDos(newToDos)
+  }
+  const deleteTodo = (idText) => {
+    const newToDos = [...toDos]
+    const todoIndex = newToDos.findIndex(todo => todo.text === idText)
+    newToDos.splice(todoIndex,1)
+    setToDos(newToDos)
+  }
+
   return (
     <>
       <ToDoCounter completed={completedToDos} total={totalToDos}/>
@@ -40,11 +50,13 @@ function App() {
       />
 
       <ToDoList>
-        {searchedValues.map(task => (
+        {searchedValues.map(toDo => (
           <ToDoItem
-            key={task.text}
-            text={task.text}
-            completed={task.completed}
+            key={toDo.text}
+            text={toDo.text}
+            completed={toDo.completed}
+            onCompleted={() => completeTodo(toDo.text)}
+            onDeleted={() => deleteTodo(toDo.text)}
           />
         ))}
       </ToDoList>
