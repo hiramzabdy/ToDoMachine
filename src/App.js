@@ -14,12 +14,14 @@ let defaultToDos = [
 ]
 
 function App() {
+  //States React App
   const [searchValue, setSearchValue] = React.useState("")
   const [toDos, setToDos] = React.useState(defaultToDos)
-
+  //Used to display number of toDos
   const completedToDos = toDos.filter(todo => !!todo.completed).length
   const totalToDos = toDos.length
 
+  //Returns todo if matches searchValue
   const searchedValues = toDos.filter((todo) => {
     //makes text lower case and replaces accented characters
     const searchingTextValue = searchValue.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -28,12 +30,13 @@ function App() {
       return todo
     }
   })
-
+  //Checks and unchecks toDo as completed
   const completeTodo = (idText) => {
     const newToDos = [...toDos]
-    newToDos.find(todo => todo.text === idText).completed = true
+    newToDos.find(todo => todo.text === idText).completed = !newToDos.find(todo => todo.text === idText).completed
     setToDos(newToDos)
   }
+  //Deletes toDo when X clicked
   const deleteTodo = (idText) => {
     const newToDos = [...toDos]
     const todoIndex = newToDos.findIndex(todo => todo.text === idText)
@@ -41,13 +44,11 @@ function App() {
     setToDos(newToDos)
   }
 
+  //App main component
   return (
     <>
       <ToDoCounter completed={completedToDos} total={totalToDos}/>
-      <ToDoSearch
-        searchValue = {searchValue}
-        setSearchValue = {setSearchValue}
-      />
+      <ToDoSearch searchValue={searchValue} setSearchValue={setSearchValue}/>
 
       <ToDoList>
         {searchedValues.map(toDo => (
