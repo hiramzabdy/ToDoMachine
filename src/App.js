@@ -5,23 +5,42 @@ import { ToDoList } from './ToDoList';
 import { ToDoItem } from './ToDoItem';
 import { ToDoButton } from './ToDoButton';
 
-let defaultToDos = [
+/* let defaultToDos = [
   {text: "Cortar Cebolla", completed: true},
   {text: "Llorar con la llorona", completed: false},
   {text: "Abrir Platzi", completed: false},
   {text: "Terminar el curso de React js", completed: false},
   {text: "Cantar una canción", completed: false}
 ]
+localStorage.setItem("TODOS_V1", JSON.stringify(defaultToDos))
+ */
+
+function useLocalStorage(itemName, initialValue){
+
+  if(!localStorage.getItem(itemName)){
+    localStorage.setItem(itemName, JSON.stringify(initialValue))
+  }
+  let localStorageItems = JSON.parse(localStorage.getItem(itemName))
+  const [item, setItem] = React.useState(localStorageItems)
+
+  const saveItems = (newItems) =>{
+    localStorage.setItem(itemName, JSON.stringify(newItems))
+    setItem(newItems)
+  }
+
+  return [item, saveItems]
+}
 
 function App() {
   //States React App
+  const [toDos, setToDos] = useLocalStorage("TODOS_V1", [])
   const [searchValue, setSearchValue] = React.useState("")
-  const [toDos, setToDos] = React.useState(defaultToDos)
+
   //Used to display number of toDos
   const completedToDos = toDos.filter(todo => !!todo.completed).length
   const totalToDos = toDos.length
 
-  //Returns todo if matches searchValue
+  //Returns todo if it matches searchValue
   const searchedValues = toDos.filter((todo) => {
     //makes text lower case and replaces accented characters
     const searchingTextValue = searchValue.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
