@@ -4,14 +4,19 @@ import { useLocalStorage } from './useLocalStorage';
 
 function App() {
   //States React App
-  const [toDos, setToDos] = useLocalStorage("TODOS_V1", [])
+  const {
+    item: toDos,
+    setItem: setToDos,
+    loading,
+    error} = useLocalStorage("TODOS_V1", [])
   const [searchValue, setSearchValue] = React.useState("")
-
   //Used to display number of toDos
   const completedToDos = toDos.filter(todo => !!todo.completed).length
   const totalToDos = toDos.length
 
-  //Returns todo if it matches searchValue
+
+  
+  //Returns ToDo if it matches searchValue
   const searchedValues = toDos.filter((todo) => {
     //makes text lower case and replaces accented characters
     const searchingTextValue = searchValue.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -20,13 +25,12 @@ function App() {
       return todo
     }
   })
-  //Checks and unchecks toDo as completed
+  //Checks, Deletes ToDos
   const completeTodo = (idText) => {
     const newToDos = [...toDos]
     newToDos.find(todo => todo.text === idText).completed = !newToDos.find(todo => todo.text === idText).completed
     setToDos(newToDos)
   }
-  //Deletes toDo when X clicked
   const deleteTodo = (idText) => {
     const newToDos = [...toDos]
     const todoIndex = newToDos.findIndex(todo => todo.text === idText)
@@ -36,7 +40,6 @@ function App() {
 
   return(
     <AppUI
-
     completedToDos={completedToDos}
     totalToDos={totalToDos}
     searchValue={searchValue}
@@ -44,10 +47,10 @@ function App() {
     searchedValues={searchedValues}
     completeTodo={completeTodo}
     deleteTodo={deleteTodo}
-    
+    loading={loading}
+    error={error}
     />
   )
-
 }
 
 export default App;
