@@ -1,14 +1,10 @@
 import "./ToDoButton.css"
 
-function ToDoButton(){
+function ToDoButton(props){
     return(
         <button
         className="toDoButton"
-        onClick={(event) => {
-            console.log("You clicked!")
-            console.log(event)
-            console.log(event.target)
-        }}
+        onClick={props.onClick}
         >+</button>
     )
 }

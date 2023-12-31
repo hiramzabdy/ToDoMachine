@@ -7,13 +7,14 @@ import { ToDosLoading } from '../ToDosLoading';
 import { ToDosError } from '../ToDosError';
 import { EmptyToDos } from '../EmptyToDos';
 import { ToDoContext } from '../Context/Context';
+import { Modal } from '../Modal';
 import React from 'react';
 
 
 
 function AppUI(){
 
-    const {searchedValues, completeTodo, deleteTodo, loading, error} = React.useContext(ToDoContext)
+    const {searchedValues, completeTodo, deleteTodo, loading, error, openModal, toggleAddTodoWindow} = React.useContext(ToDoContext)
 
     return (
         <>
@@ -49,7 +50,15 @@ function AppUI(){
               </ToDoList>
             )}
           </ToDoContext.Consumer>
-          {<ToDoButton/>}
+
+          <ToDoButton
+            onClick={toggleAddTodoWindow}
+          />
+          {openModal && (
+            <Modal>
+              Agregar ToDos
+            </Modal>
+          )}
         </>
       );
 }
