@@ -11,7 +11,7 @@ function ToDoProvider({ children }) {
         loading,
         error} = useLocalStorage("TODOS_V1", [])
     const [searchValue, setSearchValue] = React.useState("")
-    const [openModal, setOpenModal] = React.useState(true)
+    const [openModal, setOpenModal] = React.useState(false)
 
     //Used to display number of toDos
     const completedToDos = toDos.filter(todo => !!todo.completed).length
@@ -41,6 +41,15 @@ function ToDoProvider({ children }) {
     const toggleAddTodoWindow = () => {
         setOpenModal(!openModal)
     }
+    const addToDo = (toDoText) =>{
+        let newToDos = [...toDos]
+        let toDo = {
+            "text": toDoText,
+            "completed": false
+        }
+        newToDos.push(toDo)
+        setToDos(newToDos)
+    }
 
 
     return (
@@ -55,7 +64,8 @@ function ToDoProvider({ children }) {
             loading,
             error,
             openModal,
-            toggleAddTodoWindow
+            toggleAddTodoWindow,
+            addToDo
         }}>
             {children}
         </ToDoContext.Provider>

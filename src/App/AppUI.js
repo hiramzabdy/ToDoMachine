@@ -8,6 +8,7 @@ import { ToDosError } from '../ToDosError';
 import { EmptyToDos } from '../EmptyToDos';
 import { ToDoContext } from '../Context/Context';
 import { Modal } from '../Modal';
+import { ToDoForm } from "../ToDoForm"
 import React from 'react';
 
 
@@ -56,7 +57,7 @@ function AppUI(){
           />
           {openModal && (
             <Modal>
-              Agregar ToDos
+              <ToDoForm/>
             </Modal>
           )}
         </>
